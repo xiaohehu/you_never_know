@@ -1,22 +1,16 @@
-#!/usr/bin/python
-def lengthOfLongestSubstring(s):
-	"""
-	:type s: str
-	:rtype: int
-	"""
-	result = []
-	preResult = 0
-	i = 0
-	while i < len(s):
-		if s[i] not in result:
-			result.append(s[i])
-			i += 1
-		else:
-			s = s[1:]
-			if len(result) > preResult:
-				preResult = len(result)
-			result = []
-			i = 0
-	return max(preResult, len(result))
+# you never know
+class Solution:
+	# @return an integer
+	def lengthOfLongestSubstring(self, s):
+		start = maxLength = 0
+		usedChar = {}
+		
+		for i in range(len(s)):
+			if s[i] in usedChar and start <= usedChar[s[i]]:
+				start = usedChar[s[i]] + 1
+			else:
+				maxLength = max(maxLength, i - start + 1)
 
+			usedChar[s[i]] = i
 
+		return maxLength
