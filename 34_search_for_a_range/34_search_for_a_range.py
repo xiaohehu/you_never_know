@@ -1,37 +1,32 @@
 class Solution(object):
-    def searchRange(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        ans = [-1, -1]
-        start = 0
-        end = len(nums) - 1
-        if end == -1:
-            return ans
-        while start + 1 < end:
-            mid = start + (end - start) / 2
-            if nums[mid] >= target:
-                end = mid
-            else:
-                start = mid
-        if nums[start] == target:
-            ans[0] = start
-        elif nums[end] == target:
-            ans[0] = end
+    def searchRange(self, A, target):
+        if len(A) == 0:
+            return [-1, -1]
         
-        start = 0
-        end = len(nums) - 1
+        start, end = 0, len(A) - 1
         while start + 1 < end:
-            mid = start + (end - start) / 2
-            if nums[mid] <= target:
+            mid = (start + end) / 2
+            if A[mid] < target:
                 start = mid
             else:
                 end = mid
-        if nums[end] == target:
-            ans[1] = end
-        elif nums[start] == target:
-            ans[1] = start
         
-        return ans
+        if A[start] == target:
+            leftBound = start
+        elif A[end] == target:
+            leftBound = end
+        else:
+            return [-1, -1]
+        
+        start, end = leftBound, len(A) - 1
+        while start + 1 < end:
+            mid = (start + end) / 2
+            if A[mid] <= target:
+                start = mid
+            else:
+                end = mid
+        if A[end] == target:
+            rightBound = end
+        else:
+            rightBound = start
+        return [leftBound, rightBound]
